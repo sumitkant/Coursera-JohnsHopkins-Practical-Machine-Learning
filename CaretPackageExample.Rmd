@@ -1,0 +1,68 @@
+---
+title: "Week2.Rmd"
+author: "Sumit Kant"
+date: "3 May 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Caret Package in R
+
+## Caret package FUnctionality
+* Preprocessing
+* Data Splitting
+* Testing/Training functions - train, predict 
+* Model comparision - confusion matrix
+
+## Machine learning Algorithms in R
+* Linear Discriminant analysis
+* Regression
+* Naive Bayes
+* Support Vector Machines
+* Classfication and regression trees
+* random forests
+* Boosting
+
+## Why Caret
+Gives us a unified framework to make predictions just using one function despite having multiple packages of machine learninig algorithms
+
+# EXAMPLE: SPAM Dataset
+
+## Data Splitting
+we have SPAM data set from the kernlab package. using the createDataPartition() function the data set is divided in testing and training set where 75% is training and rest is testing. The splitting variable is the type which contains whether the mail is market spam or not.
+
+```{r warning=FALSE}
+library(caret)
+library(kernlab)
+data(spam) # part of kernlab package
+View(spam)
+# Create data partition
+inTrain <- createDataPartition(y = spam$type, p = 0.75, list = FALSE)
+training <- spam[inTrain,]
+testing <- spam[-inTrain,]
+dim(training)
+```
+## Fitting MOdel
+Training the data with general linear model
+```{r warning=FALSE}
+modelFit <- train(type~., data = training, method="glm")
+modelFit
+```
+
+## Final Model
+```{r warning=FALSE}
+modelFit$finalModel
+```
+## Prediction
+```{r warning=FALSE}
+predictions <- predict(modelFit, newdata = testing)
+predictions
+```
+
+## Confusion Matrix
+```{r warning=FALSE}
+confusionMatrix(predictions, testing$type)
+```

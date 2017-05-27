@@ -1,0 +1,28 @@
+---
+title: "RMarkdown Wordpress Template"
+author: "Sumit Kant"
+date: "Monday, March 09, 2015"
+output: pdf_document
+---
+
+This is R Markdown Wordpress template file.
+
+Run *wordpress* chunk with option `eval=FALSE,echo=FALSE` to publish this R Markdown file on your Wordpress website. Eval is set to FALSE, otherwise the posting will be trapped in a loop.
+
+```{r wordpress,eval=FALSE,echo=FALSE}
+# replace <password> <url> make sure chunk option is set to echo=FALSE !
+if (!require('RWordPress')){install.packages('RWordPress', repos = 'http://www.omegahat.org/R', type = 'source')}
+library(RWordPress)
+options(WordpressLogin = c(sumitkant = 'sumit_93'), WordpressURL = 'https://sumitkant9.wordpress.com/xmlrpc.php')
+library(knitr)
+# Knitr options: upload plots/images to wordpress
+opts_knit$set(upload.fun = function(file){library(RWordPress);uploadFile(file)$url;})
+# enable toc (comment out if not needed)
+library(markdown)
+options(markdown.HTML.options =  c(markdownHTMLOptions(default = T),"toc"))
+
+# Upload featured image / post thumbnail: option: wp_post_thumbnail=postThumbnail$id
+# postThumbnail <- RWordPress::uploadFile("figure/post_thumbnail.png",overwrite = TRUE)
+
+postid <- knit2wp('RMarkdownWordpressTemplate.Rmd', action = c("newPost"),title = 'RMarkdown Wordpress Template',categories=c('R'),mt_keywords = c('R','RMarkdown'),publish=FALSE) # add featured image include: wp_post_thumbnail=postThumbnail$id 
+```

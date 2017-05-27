@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"Week3_Predicting_with_Trees\"\nauthor: \"Sumit Kant\"\ndate: \"5 May 2017\"\noutput: pdf_document\n---\n\n```{r wordpress,eval=FALSE,echo=FALSE}\n# replace <password> <url> make sure chunk option is set to echo=FALSE !\nif (!require('RWordPress')){install.packages('RWordPress', repos = 'http://www.omegahat.org/R', type = 'source')}\nlibrary(RWordPress)\noptions(WordpressLogin = c(sumitkant = 'sumit_93'), WordpressURL = 'https://sumitkant9.wordpress.com/xmlrpc.php')\nlibrary(knitr)\n\n\n# Knitr options: upload plots/images to wordpress\nopts_knit$set(upload.fun = function(file){library(RWordPress);uploadFile(file)$url;})\n# enable toc (comment out if not needed)\nlibrary(markdown)\noptions(markdown.HTML.options =  c(markdownHTMLOptions(default = T),\"toc\"))\n\n# Upload featured image / post thumbnail: option: wp_post_thumbnail=postThumbnail$id\n# postThumbnail <- RWordPress::uploadFile(\"figure/post_thumbnail.png\",overwrite = TRUE)\n\npostid <- knit2wp('Week3_Predicting_with_Trees.Rmd', action = c(\"newPost\"),title = 'Prediction With Classfication Trees',categories=c('R'),mt_keywords = c('R','RMarkdown'),publish=FALSE) # add featured image include: wp_post_thumbnail=postThumbnail$id \n```\n\n```{r setup, include=FALSE}\nknitr::opts_chunk$set(echo = TRUE)\n```\n\n# PREDICTING WITH TREES\nA group of variables are split iteratively till the split outcomes provides groups that are homogemous.\n\n**PROS**\n\n* Easy to interpret\n* Better perf in non linear setting\n\n**CONS**\nWithout pruning or Cross validation may lead to overfitting\n\n## Measures of impurity\n\n### Misclassifcation Error\n\n* 0 - perfect purity\n* 0.5 - no purity\n\n### Gini INDEX\n\n* 0 - perfectpurity\n* 0.5 - no purity\n \n### Deviance and Information Gain\nlog2 - IG\nloge - deviance\n\n## EXAMPLE _ IRIS DATA\n\nIris has 4 vairiables and the outcome variable is species.\n\n```{r warning=FALSE}\ndata(\"iris\")\nlibrary(ggplot2)\nnames(iris)\n```\n\n```{r warning=FALSE}\ntable(iris$Species)\n```\nThis shows that there are 50 observations of each specie type\n\n### Create training and test sets\n```{r warning=FALSE}\nlibrary(caret)\ninTrain <- createDataPartition(y = iris$Species, p =0.7, list = FALSE)\ntraining <- iris[inTrain,]\ntesting <- iris[-inTrain,]\ndim(training)\n```\n\n### Plotting\n```{r warning=FALSE}\nqplot(Petal.Width, Sepal.Width, color=Species, data = training)\n```\n\n### Model Fit\n```{r warning=FALSE}\nmodFit <- train(Species~., method = \"rpart\", data = training)\nmodFit$finalModel\n```\n\n### Plot of classifcation tree\n```{r warning=FALSE}\nplot(modFit$finalModel, \n     main = \"Classfication Tree\",\n     uniform = TRUE)\ntext(modFit$finalModel, use.n = TRUE, all = TRUE, cex =0.8)\n```\n\n### Prettier plots\n```{r warning=FALSE}\nlibrary(rattle)\nfancyRpartPlot(model = modFit$finalModel)\n```\n\n### Predictions\n```{r warning=FALSE}\npredictions <- predict(modFit, newdata = testing)\npredictions\n```\n\n### Confusion Matrix\n```{r}\nconfusionMatrix(testing$Species, predictions)\n```\n\n\n## Final WOrds\n* Data transformations are less important\n* The model is built on using relationships between multiple variables  \n* Trees can be used for regression models\n* Models can overfit \n\n",
+    "created" : 1494939837418.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1559503666",
+    "id" : "631623B0",
+    "lastKnownWriteTime" : 1493965213,
+    "last_content_update" : 1494940045305,
+    "path" : "D:/Data Analyst/R/Coursera - Practical Machine Learning/Week 3/Week3_Predicting_with_Trees.Rmd",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
