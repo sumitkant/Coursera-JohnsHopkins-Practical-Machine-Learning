@@ -1,5 +1,10 @@
-Loading dataset
+Practical Machine learning Final Project Report
 ===============
+
+To view report in html follow this [link](http://htmlpreview.github.io/?https://github.com/sumitkant/Coursera-Practical-Machine-Learning/blob/master/Project/Report.html)
+
+Loading dataset
+----------------
 
 ``` r
 pml <- read.csv("pml-training.csv")
