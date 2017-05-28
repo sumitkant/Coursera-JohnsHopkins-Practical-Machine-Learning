@@ -2,7 +2,9 @@
 title: "Practical Machine Learning -Project"
 author: "Sumit Kant"
 date: "28 May 2017"
-output: html_document
+output:
+  md_document:
+    variant: markdown_github
 ---
 # Loading dataset
 
